@@ -1,0 +1,32 @@
+name: Lab1 OutputFilter tests
+
+on:
+  push:
+    paths:
+      - "lab1_output_filter/**"
+      - ".github/workflows/lab1-output-filter.yml"
+  pull_request:
+    paths:
+      - "lab1_output_filter/**"
+      - ".github/workflows/lab1-output-filter.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./lab1_output_filter
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run tests
+        env:
+          PYTHONPATH: .
+        run: python -m pytest tests -v
